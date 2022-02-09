@@ -83,6 +83,7 @@ int count_tokens(char* str,char delim)
 // hello world -> hello 
 char *copy_str(char *inStr, short len, char delim)
 {
+	//git test
 	//this should copy a string given a length
 	//should I add a len+1 for 0 terminator?	
 	//note ex hello world new_str should initialize enough memory to hold hello 
