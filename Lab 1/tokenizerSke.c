@@ -106,14 +106,22 @@ char *copy_str(char *inStr, short len, char delim)
 */
 char** tokenize(char* str, char delim)
 {
+	int len = count_tokens(str,delim);
+	
 	//this should create enough memory for the amount of tokens we want
 	//note to self (does not incude 0 terminator)
-	char**  tokens = (char**)malloc(count_tokens(*str,delim));
-	char* start = *str;
+	char**  tokens = (char**)malloc(sizeof(char*)*(len));
+	char* start = str;
 	//you get the end of the current start word
-	char* end =  end_word(*start,delim);
+	char* end = str;
 
+	for(int i = 0;i < len; i++) {
+		start = word_start(end,delim);
+		end = end_word(start,delim);
 
+		tokens[i] =  copy_str(start, end - start, delim);
+	}
+	return tokens;
 }
 
 void print_all_tokens(char** tokens)
