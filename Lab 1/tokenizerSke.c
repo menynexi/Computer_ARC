@@ -48,7 +48,6 @@ char *end_word(char* str,char delim)
 	while(non_delim_character(*point,delim)){
 		point++;
 	}
-	printf("%c\n",*point);
 	return point;
 }
 
@@ -148,7 +147,7 @@ void main(){
 	*/
 	
 	char user_string[20]; //note to self no \0
-	char delim[1]; //note to self this does not include a \0 for any of them
+	char delim; //note to self this does not include a \0 for any of them
 	
 	//ask the user for input on string
 	printf("enter a word to be tokenized\n");
@@ -156,11 +155,9 @@ void main(){
 	printf("This is your word:%s\n\n",user_string);
 	
 	//as the user for input on a delimiter
-	/*
 	printf("enter a delimiter (with no extra space)");
-        scanf("%[^\n]%*c",delim);
-        printf("This is your delim:%s\n\n",delim);
-	*/
+        scanf("%c", &delim);
+        printf("This is your delim:%c\n\n",delim);
 
-	print_all_tokens(tokenize(user_string,' '));
+	print_all_tokens(tokenize(user_string,delim));
 }
