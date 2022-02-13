@@ -30,16 +30,12 @@ bool non_delim_character(char c, char delim)
 
 //if the word is hello world return a pointer to the letter h
 char *word_start(char* str,char delim)
-{
-	//test statement
-	printf("hello I am in word_start\n");
-	
+{	
 	//increments till you have a non delimiting character
 	char *point = str;
 	while(delim_character(*point,delim)){
 		point++;
 	}
-	printf("%c\n",*point);
 	return point;
 }
 
@@ -47,11 +43,7 @@ char *word_start(char* str,char delim)
    terminated string*/
 char *end_word(char* str,char delim)
 {
-	//test statements 
-	printf("hello I am in end_word\n");	
-	char *point = str;
-	printf("%c",*point);
-	
+	char * point = str;	
 	//increment till you have a delimiter character
 	while(non_delim_character(*point,delim)){
 		point++;
@@ -74,7 +66,6 @@ int count_tokens(char* str,char delim)
 		}
 		point++;
 	}
-	printf("%d\n",count);
 	return count;
 }
 
@@ -109,35 +100,67 @@ char** tokenize(char* str, char delim)
 	int len = count_tokens(str,delim);
 	
 	//this should create enough memory for the amount of tokens we want
-	//note to self (does not incude 0 terminator)
-	char**  tokens = (char**)malloc(sizeof(char*)*(len));
+	char**  tokens = (char**)malloc(sizeof(char*)*(len+1));
+	
+	//both pointers have to be initialized at the start
 	char* start = str;
-	//you get the end of the current start word
 	char* end = str;
-
-	for(int i = 0;i < len; i++) {
+	int i;
+	for(i = 0;i < len; i++) {
 		start = word_start(end,delim);
 		end = end_word(start,delim);
 
 		tokens[i] =  copy_str(start, end - start, delim);
 	}
+	//I am using this so I know when to stop iterateing on print method
+	tokens[i] = '\0';
 	return tokens;
 }
 
 void print_all_tokens(char** tokens)
 {
-
+	//is there no way to get the lenth of a char** like regular arrays 
+	//even though it is a pointer that points to another thing
+	printf("printing all tokens\n");
+	int index = 0;
+	while(tokens[index] != 0){
+		printf("%s\n",tokens[index]);
+		index++;
+	}
 }
 
 void main(){
+	// this was used for testing purposes
+	/* 
         bool is_delim = delim_character(' ',' ');
         printf("%d\n",is_delim);
 	char word[] = "hello world\0";
 	char *c = word;
-	printf("%c\n",*c);
-	printf("%p\n",c);
-	printf("%s\n",word_start(c,' '));
-	printf("%s\n",end_word(c,' '));
-	printf("%d\n",count_tokens(c,' '));
-	printf("%s\n",copy_str(c,5,' '));
+	printf("this is what *c looks like:\n%c\n",*c);
+	printf("this is what c looks like:\n%p\n",c);
+	printf("this is what the start word is:\n%s\n",word_start(c,' '));
+	printf("this what the end word is:\n%s\n",end_word(c,' '));
+	printf("this is the number of tokens:\n%d\n",count_tokens(c,' '));
+	printf("this is the copy string method on the first word:\n%s\n",copy_str(c,5,' '));
+	
+	char** test_token = tokenize(c,' ');
+	print_all_tokens(test_token);
+	*/
+	
+	char user_string[20]; //note to self no \0
+	char delim[1]; //note to self this does not include a \0 for any of them
+	
+	//ask the user for input on string
+	printf("enter a word to be tokenized\n");
+	scanf("%[^\n]%*c",user_string);
+	printf("This is your word:%s\n\n",user_string);
+	
+	//as the user for input on a delimiter
+	/*
+	printf("enter a delimiter (with no extra space)");
+        scanf("%[^\n]%*c",delim);
+        printf("This is your delim:%s\n\n",delim);
+	*/
+
+	print_all_tokens(tokenize(user_string,' '));
 }
